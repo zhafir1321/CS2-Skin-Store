@@ -3,6 +3,27 @@ const { compare } = require('../helpers/bcrypt');
 const { signToken } = require('../helpers/jwt');
 
 class AuthController {
+  static async postRegister(req, res, next) {
+    try {
+      const { fullName, username, password, email } = req.body;
+      const user = await User.create({ fullName, username, password, email });
+
+      res.status(201).json({
+        message: 'Register Successful',
+      });
+    } catch (error) {
+      let statusCode = 500;
+      let message = 'Internal Server Error';
+      if (error.name === 'SequelizeValidationError') {
+        statusCode = 400;
+        message = error.errors.map((el) => el.message).join(', ');
+      }
+      res.status(statusCode).json({
+        message,
+      });
+    }
+  }
+
   static async postLogin(req, res, next) {
     try {
       const { username, password } = req.body;

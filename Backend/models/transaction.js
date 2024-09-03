@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       ItemId: DataTypes.INTEGER,
       BuyerId: DataTypes.INTEGER,
       OrderId: DataTypes.INTEGER,
-      status: DataTypes.STRING,
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: 'Not Paid',
+      },
     },
     {
       sequelize,
