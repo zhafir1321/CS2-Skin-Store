@@ -1,0 +1,29 @@
+{
+  "name": "cs2-skin-store",
+  "version": "1.0.0",
+  "description": "Tempat beli skin cs2",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhafir1321/CS2-Skin-Store.git"
+  },
+  "author": "Zhafir Rasyid Muhammad Hafidz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhafir1321/CS2-Skin-Store/issues"
+  },
+  "homepage": "https://github.com/zhafir1321/CS2-Skin-Store#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "pg": "^8.12.0",
+    "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "sequelize-cli": "^6.6.2"
+  }
+}
