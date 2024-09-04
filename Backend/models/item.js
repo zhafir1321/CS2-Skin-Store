@@ -91,27 +91,39 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      ItemName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Item Name is required',
+          },
+          notEmpty: {
+            msg: 'Item Name is required',
+          },
+          async isValidItemName(item) {
+            try {
+              const { data } = await axios.get(
+                'https://api.bitskins.com/market/skin/730',
+              );
+
+              const validItem = data.some((skin) => skin.name === item);
+              if (!validItem) {
+                throw new Error('Invalid Skin Weapon');
+              }
+            } catch (error) {
+              throw new Error('Invalid Skin Weapon');
+            }
+          },
+        },
+      },
     },
     {
       sequelize,
       modelName: 'Item',
       hooks: {
-        async beforeCreate(item, options) {
-          try {
-            const itemName = `${item.weapon} | ${item.skin} (${item.exterior})`;
-
-            const { data } = await axios.get(
-              'https://api.bitskins.com/market/skin/730',
-            );
-
-            const validItem = data.some((skin) => skin.name === itemName);
-
-            if (!validItem) {
-              throw new Error(`SKIN_NOT_FOUND`);
-            }
-          } catch (error) {
-            throw new Error(`SKIN_NOT_FOUND`);
-          }
+        beforeValidate: (item) => {
+          item.ItemName = `${item.weapon} | ${item.skin} (${item.exterior})`;
         },
       },
     },
