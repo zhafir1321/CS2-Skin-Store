@@ -5,7 +5,7 @@ import Register from "../views/Register";
 import BaseLayout from "../layout/BaseLayout";
 import Home from "../views/Home";
 
-const url = "http://34.87.177.220";
+const url = "https://datacs2.zhafirhafidz.dev";
 
 const router = createBrowserRouter([
   {
