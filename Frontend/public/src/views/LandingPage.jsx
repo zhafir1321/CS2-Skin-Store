@@ -8,7 +8,7 @@ export default function LandingPage() {
 
   async function funFact() {
     try {
-      const apiKey = "AIzaSyBtE0l7UzlCmv6qjp_PCQJ6K7WgRKNEHAA";
+      const apiKey = import.meta.env.VITE_GEMINI_API;
       const genAI = new GoogleGenerativeAI(apiKey);
 
       const model = genAI.getGenerativeModel({
