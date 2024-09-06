@@ -27,7 +27,7 @@ module.exports = {
         },
       },
       OrderId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       status: {
         type: Sequelize.STRING,

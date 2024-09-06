@@ -17,7 +17,7 @@ const userAuthentication = async function (req, res, next) {
 
     if (!foundUser) throw { name: 'UNAUTHENTICATED' };
 
-    req.addionalData = {
+    req.additionalData = {
       id: foundUser.id,
       username: foundUser.username,
       role: foundUser.role,
