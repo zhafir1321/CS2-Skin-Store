@@ -1,7 +1,8 @@
-import smg from '../data/smg.json';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import smg from "../data/smg.json";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function FormSmg({ url }) {
   const { register, handleSubmit } = useForm();
@@ -10,11 +11,11 @@ export default function FormSmg({ url }) {
   const onSubmit = async (d) => {
     const formData = new FormData();
 
-    formData.append('skin', d.skin);
-    formData.append('exterior', d.exterior);
-    formData.append('price', d.price);
-    formData.append('weapon', d.weapon);
-    formData.append('imgUrl', d.imgUrl[0]);
+    formData.append("skin", d.skin);
+    formData.append("exterior", d.exterior);
+    formData.append("price", d.price);
+    formData.append("weapon", d.weapon);
+    formData.append("imgUrl", d.imgUrl[0]);
 
     try {
       const { data } = await axios.post(`${url}/items`, formData, {
@@ -22,9 +23,16 @@ export default function FormSmg({ url }) {
           Authorization: `Bearer ${localStorage.access_token}`,
         },
       });
-      navigate('/home');
+      Swal.fire({
+        icon: "success",
+        title: "Add Item Success",
+      });
+      navigate("/home");
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: error.response.data.message,
+      });
     }
   };
 
@@ -39,7 +47,7 @@ export default function FormSmg({ url }) {
             Skin
           </label>
           <input
-            {...register('skin')}
+            {...register("skin")}
             type="text"
             id="skin"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -55,7 +63,7 @@ export default function FormSmg({ url }) {
             Weapon
           </label>
           <select
-            {...register('weapon')}
+            {...register("weapon")}
             id="weapon"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
@@ -74,7 +82,7 @@ export default function FormSmg({ url }) {
             Exterior
           </label>
           <input
-            {...register('exterior')}
+            {...register("exterior")}
             type="text"
             id="exterior"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -89,7 +97,7 @@ export default function FormSmg({ url }) {
             Price
           </label>
           <input
-            {...register('price')}
+            {...register("price")}
             type="text"
             id="price"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -104,7 +112,7 @@ export default function FormSmg({ url }) {
             Upload file
           </label>
           <input
-            {...register('imgUrl')}
+            {...register("imgUrl")}
             className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             aria-describedby="user_avatar_help"
             id="user_avatar"

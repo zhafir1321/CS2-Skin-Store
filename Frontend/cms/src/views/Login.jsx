@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import axios from 'axios';
-import Toastify from 'toastify-js';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login({ url }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -15,23 +15,17 @@ export default function Login({ url }) {
     try {
       const body = { username, password };
       const { data } = await axios.post(`${url}/login`, body);
-      localStorage.setItem('access_token', data.access_token);
-      Toastify({
-        text: 'Already logged in',
-        duration: 3000,
-        newWindow: true,
-        close: true,
-        gravity: 'bottom', // `top` or `bottom`
-        position: 'right', // `left`, `center` or `right`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
-        style: {
-          background: '#FF0000',
-        },
-        onClick: function () {}, // Callback after click
-      }).showToast();
-      navigate('/home');
+      localStorage.setItem("access_token", data.access_token);
+      Swal.fire({
+        icon: "success",
+        title: "Login Success",
+      });
+      navigate("/home");
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: error.response.data.message,
+      });
     }
   }
 
