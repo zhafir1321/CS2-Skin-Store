@@ -37,7 +37,7 @@ export const getAsync = () => async (dispatch) => {
   try {
     dispatch(getPending());
 
-    const { data } = await axios.get("http://localhost:3000/items", {
+    const { data } = await axios.get("https://datacs2.zhafirhafidz.dev/items", {
       headers: {
         Authorization: `Bearer ${localStorage.access_token}`,
       },
