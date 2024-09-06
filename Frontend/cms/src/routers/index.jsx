@@ -14,7 +14,7 @@ import EditItem from "../views/EditItem/EditPistol";
 const url = "http://34.87.177.220";
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: "/",
     element: <Login url={url} />,
     loader: async () => {
       if (localStorage.access_token) {
