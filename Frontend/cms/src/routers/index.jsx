@@ -1,5 +1,4 @@
 import { createBrowserRouter, redirect } from 'react-router-dom';
-import LandingPage from '../views/LandingPage';
 import BaseLayout from '../layout/BaseLayout';
 import Login from '../views/Login';
 import Home from '../views/Home';
@@ -11,14 +10,9 @@ import AddItemSmg from '../views/AddItem/AddItemSmg';
 import AddItemShotgun from '../views/AddItem/AddItemShotgun';
 import AddItemMachinegun from '../views/AddItem/AddItemMachinegun';
 import EditItem from '../views/EditItem/EditPistol';
-import { ToastContainer, toast } from 'react-toastify';
 
 const url = 'http://localhost:3000';
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <LandingPage />,
-  },
   {
     path: '/login',
     element: <Login url={url} />,

@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import pistol from '../../data/pistol.json';
-import smg from '../../data/smg.json';
-import shotgun from '../../data/shotgun.json';
-import machinegun from '../../data/machinegun.json';
-import rifle from '../../data/rifle.json';
-import knife from '../../data/knife.json';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import pistol from "../../data/pistol.json";
+import smg from "../../data/smg.json";
+import shotgun from "../../data/shotgun.json";
+import machinegun from "../../data/machinegun.json";
+import rifle from "../../data/rifle.json";
+import knife from "../../data/knife.json";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 export default function EditItem({ url }) {
   const [item, setItem] = useState({});
-  const [skin, setSkin] = useState('');
-  const [weapon, setWeapon] = useState('');
-  const [exterior, setExterior] = useState('');
-  const [price, setPrice] = useState('');
+  const [skin, setSkin] = useState("");
+  const [weapon, setWeapon] = useState("");
+  const [exterior, setExterior] = useState("");
+  const [price, setPrice] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
@@ -28,26 +29,31 @@ export default function EditItem({ url }) {
       });
       setItem(data.data);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: error.response.data.message,
+      });
     }
   };
 
   const onSubmit = async (d) => {
     try {
-      console.log(d);
-
       if (d.imgUrl) {
         const formData = new FormData();
 
-        formData.append('skin', d.skin);
-        formData.append('exterior', d.exterior);
-        formData.append('price', d.price);
-        formData.append('weapon', d.weapon);
-        formData.append('imgUrl', d.imgUrl[0]);
+        formData.append("skin", d.skin);
+        formData.append("exterior", d.exterior);
+        formData.append("price", d.price);
+        formData.append("weapon", d.weapon);
+        formData.append("imgUrl", d.imgUrl[0]);
         const { data } = await axios.put(`${url}/items/${id}`, formData, {
           headers: {
             Authorization: `Bearer ${localStorage.access_token}`,
           },
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Update Success",
         });
       } else {
         const { skin, exterior, price, weapon } = d;
@@ -58,9 +64,16 @@ export default function EditItem({ url }) {
           },
         });
       }
-      navigate('/home');
+      Swal.fire({
+        icon: "success",
+        title: "Update Success",
+      });
+      navigate("/home");
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: error.response.data.message,
+      });
     }
   };
 
@@ -87,7 +100,7 @@ export default function EditItem({ url }) {
             Skin
           </label>
           <input
-            {...register('skin')}
+            {...register("skin")}
             defaultValue={skin}
             type="text"
             id="skin"
@@ -104,7 +117,7 @@ export default function EditItem({ url }) {
             Weapon
           </label>
           <select
-            {...register('weapon')}
+            {...register("weapon")}
             defaultValue={weapon}
             id="weapon"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -155,7 +168,7 @@ export default function EditItem({ url }) {
             Exterior
           </label>
           <input
-            {...register('exterior')}
+            {...register("exterior")}
             defaultValue={exterior}
             type="text"
             id="exterior"
@@ -171,7 +184,7 @@ export default function EditItem({ url }) {
             Price
           </label>
           <input
-            {...register('price')}
+            {...register("price")}
             defaultValue={price}
             type="text"
             id="price"
@@ -187,7 +200,7 @@ export default function EditItem({ url }) {
             Upload file
           </label>
           <input
-            {...register('imgUrl')}
+            {...register("imgUrl")}
             className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             aria-describedby="user_avatar_help"
             id="user_avatar"
