@@ -11,7 +11,7 @@ import AddItemShotgun from "../views/AddItem/AddItemShotgun";
 import AddItemMachinegun from "../views/AddItem/AddItemMachinegun";
 import EditItem from "../views/EditItem/EditPistol";
 
-const url = "http://34.87.177.220/";
+const url = "http://34.87.177.220";
 const router = createBrowserRouter([
   {
     path: "/login",
