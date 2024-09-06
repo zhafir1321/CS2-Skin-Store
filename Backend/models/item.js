@@ -1,6 +1,8 @@
 'use strict';
 const { Model } = require('sequelize');
 const axios = require('axios');
+const { convertRupiah } = require('../helpers/convert');
+
 module.exports = (sequelize, DataTypes) => {
   class Item extends Model {
     /**
@@ -11,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Item.hasMany(models.Transaction, { foreignKey: 'ItemId' });
+    }
+
+    get convertPrice() {
+      return convertRupiah(this.price);
     }
   }
   Item.init(
@@ -120,7 +126,32 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'Item',
       hooks: {
         beforeValidate: (item) => {
-          item.ItemName = `${item.weapon} | ${item.skin} (${item.exterior})`;
+          if (
+            item.weapon === 'Bayonet' ||
+            item.weapon === 'Bowie Knife' ||
+            item.weapon === 'Butterfly Knife' ||
+            item.weapon === 'Classic Knife' ||
+            item.weapon === 'Falchion Knife' ||
+            item.weapon === 'Flip Knife' ||
+            item.weapon === 'Gut Knife' ||
+            item.weapon === 'Huntsman Knife' ||
+            item.weapon === 'Karambit' ||
+            item.weapon === 'Kukri Knife' ||
+            item.weapon === 'M9 Bayonet' ||
+            item.weapon === 'Navaja Knife' ||
+            item.weapon === 'Nomad Knife' ||
+            item.weapon === 'Paracord Knife' ||
+            item.weapon === 'Shadow Daggers' ||
+            item.weapon === 'Skeleton Knife' ||
+            item.weapon === 'Stiletto Knife' ||
+            item.weapon === 'Survival Knife' ||
+            item.weapon === 'Talon Knife' ||
+            item.weapon === 'Ursus Knife'
+          ) {
+            item.ItemName = `★ ${item.weapon} | ${item.skin} (${item.exterior})`;
+          } else {
+            item.ItemName = `${item.weapon} | ${item.skin} (${item.exterior})`;
+          }
         },
       },
     },
